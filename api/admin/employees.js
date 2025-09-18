@@ -3,6 +3,7 @@ import { parseJson } from "../../lib/parse.js";
 import { json } from "../../lib/response.js";
 import bcrypt from "bcrypt";
 import { requireRole } from "../../lib/auth.js";
+import { withCors } from "../../lib/cors.js";
 
 async function handler(req, res) {
   if (req.method === "POST") {
@@ -22,4 +23,4 @@ async function handler(req, res) {
   return json(res, 405, { error: "method" });
 }
 
-export default requireRole("admin")(handler);
+export default withCors(requireRole("admin")(handler));
