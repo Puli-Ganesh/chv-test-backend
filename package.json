@@ -1,23 +1,23 @@
 {
   "name": "chv-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "type": "module",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "vercel build",
+    "postinstall": "prisma generate"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
-    "@prisma/client": "^6.16.2",
-    "@vercel/blob": "^1.1.1",
-    "bcrypt": "^6.0.0",
-    "cookie": "^1.0.2",
-    "formidable": "^3.5.4",
+    "@prisma/client": "^5.18.0",
+    "prisma": "^5.18.0",
+    "bcrypt": "^5.1.1",
+    "cookie": "^0.6.0",
     "jsonwebtoken": "^9.0.2",
-    "prisma": "^6.16.2",
-    "xlsx": "^0.18.5",
-    "zod": "^4.1.9"
+    "@vercel/blob": "^0.23.0",
+    "formidable": "^3.5.1",
+    "xlsx": "^0.18.5"
+  },
+  "engines": {
+    "node": "20.x"
   }
 }
