@@ -1,7 +1,7 @@
+// api/admin/employees.js
 import { prisma } from "../../lib/db.js";
 import { parseJson } from "../../lib/parse.js";
 import { json } from "../../lib/response.js";
-import bcrypt from "bcrypt";
 import { requireRole } from "../../lib/auth.js";
 import { withCors } from "../../lib/cors.js";
 
@@ -18,9 +18,9 @@ async function handler(req, res) {
     const body = await parseJson(req);
     const exists = await prisma.user.findUnique({ where: { username: body.username } });
     if (exists) return json(res, 409, { error: "exists" });
-    const passwordHash = await bcrypt.hash(body.password, 10);
+
     const user = await prisma.user.create({
-      data: { username: body.username, passwordHash, role: "employee" }
+      data: { username: body.username, passwordHash: body.password, role: "employee" }
     });
     return json(res, 201, { id: user.id, username: user.username, role: user.role });
   }

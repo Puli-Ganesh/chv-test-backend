@@ -1,24 +1,22 @@
+// scripts/seed-admin.mjs
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
-
 const prisma = new PrismaClient();
 
 async function main() {
   const username = "admin";
   const password = "1234";
-  const passwordHash = await bcrypt.hash(password, 10);
 
   const existing = await prisma.user.findUnique({ where: { username } });
   if (existing) {
     console.log("admin already exists");
     return;
-    }
+  }
 
   await prisma.user.create({
-    data: { username, passwordHash, role: "admin" }
+    data: { username, passwordHash: password, role: "admin" }
   });
 
-  console.log("admin seeded");
+  console.log("admin seeded (plaintext)");
 }
 
 main().finally(async () => prisma.$disconnect());
