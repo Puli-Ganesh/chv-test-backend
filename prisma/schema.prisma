@@ -8,15 +8,16 @@ generator client {
 }
 
 model User {
-  id           String   @id @default(uuid())
-  username     String   @unique
-  passwordHash String
-  role         String
-  createdAt    DateTime @default(now())
+  id        String   @id @default(uuid())
+  username  String   @unique
+  password  String   // plain text password
+  role      String
+  createdAt DateTime @default(now())
   filesUploaded File[]  @relation("Uploader")
   filesAssigned File[]  @relation("Assignee")
-  records       Record[]
+  records   Record[]
 }
+
 
 model File {
   id           String   @id @default(uuid())
