@@ -4,12 +4,11 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "vercel build",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate && (prisma migrate deploy || prisma db push)"
   },
   "dependencies": {
-    "@prisma/client": "^5.18.0",
-    "prisma": "^5.18.0",
+    "@prisma/client": "^5.22.0",
+    "prisma": "^5.22.0",
     "bcrypt": "^5.1.1",
     "cookie": "^0.6.0",
     "jsonwebtoken": "^9.0.2",
