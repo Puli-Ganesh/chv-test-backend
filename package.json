@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "postinstall": "prisma generate && (prisma migrate deploy || prisma db push)"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
