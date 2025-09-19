@@ -7,38 +7,55 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id        String   @id @default(uuid())
-  username  String   @unique
-  password  String   // plain text password
-  role      String
-  createdAt DateTime @default(now())
-  filesUploaded File[]  @relation("Uploader")
-  filesAssigned File[]  @relation("Assignee")
-  records   Record[]
+enum Role {
+  admin
+  employee
 }
 
+enum Status {
+  Win
+  Lose
+  Pending
+}
+
+model User {
+  id            String   @id @default(uuid())            @map("id")
+  username      String   @unique                         @map("username")
+  passwordHash  String                                   @map("password_hash")
+  role          Role                                     @map("role")
+  createdAt     DateTime @default(now())                 @map("created_at")
+  filesUploaded File[]    @relation("Uploader")
+  filesAssigned File[]    @relation("Assignee")
+  records       Record[]
+
+  @@map("users")
+}
 
 model File {
-  id           String   @id @default(uuid())
-  filename     String
-  url          String
+  id           String   @id @default(uuid())             @map("id")
+  filename     String                                   @map("filename")
+  url          String                                   @map("url")
   uploadedBy   User     @relation("Uploader", fields: [uploadedById], references: [id])
-  uploadedById String
+  uploadedById String                                   @map("uploaded_by")
   assignedTo   User?    @relation("Assignee", fields: [assignedToId], references: [id])
-  assignedToId String?
-  createdAt    DateTime @default(now())
+  assignedToId String?                                  @map("assigned_to")
+  createdAt    DateTime @default(now())                  @map("created_at")
   records      Record[]
+
+  @@map("files")
 }
 
 model Record {
-  id         String   @id @default(uuid())
+  id         String   @id @default(uuid())               @map("id")
   file       File     @relation(fields: [fileId], references: [id], onDelete: Cascade)
-  fileId     String
+  fileId     String                                   @map("file_id")
   employee   User?    @relation(fields: [employeeId], references: [id])
-  employeeId String?
-  status     String?  @db.VarChar(16)
-  reason     String?
-  data       Json
-  createdAt  DateTime @default(now())
+  employeeId String?                                @map("employee_id")
+  data       Json                                   @map("data")
+  status     Status?                                @map("status")
+  reason     String?                                @map("reason")
+  updatedAt  DateTime @default(now())               @map("updated_at")
+  createdAt  DateTime @default(now())               @map("created_at")
+
+  @@map("records")
 }
