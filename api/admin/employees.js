@@ -17,7 +17,10 @@ async function handler(req, res) {
     return json(res, 201, { id: user.id, username: user.username, role: user.role });
   }
   if (req.method === "GET") {
-    const employees = await prisma.user.findMany({ where: { role: "employee" }, select: { id: true, username: true, role: true, createdAt: true } });
+    const employees = await prisma.user.findMany({
+      where: { role: "employee" },
+      select: { id: true, username: true, role: true, createdAt: true }
+    });
     return json(res, 200, { employees });
   }
   return json(res, 405, { error: "method" });
